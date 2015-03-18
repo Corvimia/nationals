@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Upload Data</title>
+        <!-- You will need those 2 when you try to use our DB stuff -->
+        <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+        <script src="data.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+        
+        
+        
+        <script>
+            // some random junk for test
+
+            function init(text){
+                data.init('nationals_test_ben1');
+            }
+
+            function save(text){
+                data.save('student', text);
+            }
+
+            $( document ).ready(function() {
+                init();
+
+                $('button').click(function() {
+                    var text = $('textarea').val();
+                    text = $.parseJSON(text)
+                    console.log(text);
+                    save(text);
+                });
+            });
+        </script>
+        
+    </head>
+    <body>
+        <textarea rows="10" cols="100">
+At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
+        </textarea><br>
+        <button>Submit</button><br>
+    </body>
+</html>
