@@ -1,0 +1,3 @@
+[{"pk":1,"name":"Boris","university_fk":1,"category_fk":2},
+{"pk":2,"name":"Ben","university_fk":2,"category_fk":1},
+{"pk":3,"name":"Joe","university_fk":3,"category_fk":4}]
