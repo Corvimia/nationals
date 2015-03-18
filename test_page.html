@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>TEST</title>
+        <!-- You will need those 2 when you try to use our DB stuff -->
+        <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+        <script src="data.js"></script>
+        
+        
+        
+        <script>
+            // some random junk for test
+            
+            
+            
+            
+            function init(){
+                data.init();
+            }
+            
+            function do_things(){
+            
+                var my_students = [];
+                
+                my_students.push({
+                    pk   : 15,
+                    name : 'Simon Test',
+                    university_fk : 21,
+                    category_fk   : 31
+                });
+            
+                data.save('student', my_students);
+                
+                console.log(data.get_list('student'));
+            }
+        
+        </script>
+        
+    </head>
+    <body onload="init();">
+        <button onclick="do_things()">Test</button>
+    </body>
+</html>
