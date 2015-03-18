@@ -9,13 +9,17 @@
         category   : []
     };
     
+    var firebase;
+    
     // initialise the connection
     function data___init(){
         
+        firebase = new Firebase('https://luminous-torch-1139.firebaseio.com/nationals_testing/');
+        
         // create some fake data for now
-        students = [{pk: 'sa',name : 'Simon Lemoine',university_fk : 'ua',category_fk : 'ca'},{pk: 'sb',name : 'Ben Glover',university_fk : 'ua',category_fk : 'cb'}];
-        unis = [{pk: 'ua',name : 'De Montfort University'},{pk: 'ub',name : 'Leicester Uni'}];
-        categories = [{pk: 'ca',name : 'High Fantasy'},{pk: 'cb',name : 'Sci Fi'}];
+        students = [{pk: 11,name : 'Simon Lemoine',university_fk : 21,category_fk : 32},{pk: 12,name : 'Ben Glover',university_fk : 22,category_fk : 31}];
+        unis = [{pk: 21,name : 'De Montfort University'},{pk: 22,name : 'Leicester Uni'}];
+        categories = [{pk: 31,name : 'High Fantasy'},{pk: 32, name : 'Sci Fi'}];
         
         stored_data.student = students;
         stored_data.university = unis;
