@@ -59,10 +59,15 @@
         return stored_data[type];
     }
     
+    function data___get_everything(){
+        return stored_data;
+    }
+    
     
     window.data = {};
     window.data.init     = data___init;
     window.data.save     = data___save;
     window.data.get_list = data___get_list;
+    window.data.get_everything = data___get_everything;
     
 })();
