@@ -30,6 +30,17 @@
         
     }
     
+    function get_next_identity(type){
+        var list = stored_data[type];
+        
+        var max_pk = 0;
+        for(var i = 0; i < list.length; i++){
+            max_pk = Math.max(max_pk, list[i].pk);
+        }
+        
+        return max_pk + 1;
+    }
+    
     // Saves a list of data in a certain format
     //  type: a string that show the data type
     //      i.e: student, university, etc
@@ -44,6 +55,9 @@
         data_ref = new Firebase(firebase + type);
         
         for(var i = 0; i < list.length; i++){
+            
+            list[i].pk = get_next_identity(type);
+            
             data_ref.push(list[i]);
         }
         
