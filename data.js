@@ -11,19 +11,23 @@
     
     var firebase;
     
+    function add_data(type, snapshot){
+        stored_data[type].push(snapshot.val());
+    }
+    
     // initialise the connection
-    function data___init(){
+    function data___init(base_folder){
         
-        firebase = new Firebase('https://luminous-torch-1139.firebaseio.com/nationals_testing/');
+        var base_firebase = 'https://luminous-torch-1139.firebaseio.com/';
         
-        // create some fake data for now
-        students = [{pk: 11,name : 'Simon Lemoine',university_fk : 21,category_fk : 32},{pk: 12,name : 'Ben Glover',university_fk : 22,category_fk : 31}];
-        unis = [{pk: 21,name : 'De Montfort University'},{pk: 22,name : 'Leicester Uni'}];
-        categories = [{pk: 31,name : 'High Fantasy'},{pk: 32, name : 'Sci Fi'}];
+        firebase = base_firebase + base_folder + '/';
         
-        stored_data.student = students;
-        stored_data.university = unis;
-        stored_data.category = categories;
+        new Firebase(firebase + 'student').on("child_added", function(snapshot){ add_data('student', snapshot) });
+        
+        new Firebase(firebase + 'university').on("child_added", function(snapshot){ add_data('university', snapshot) });
+        
+        new Firebase(firebase + 'category').on("child_added", function(snapshot){ add_data('category', snapshot) });
+        
     }
     
     // Saves a list of data in a certain format
@@ -37,9 +41,12 @@
             return false;
         }
         
+        data_ref = new Firebase(firebase + type);
+        
         for(var i = 0; i < list.length; i++){
-            stored_data[type].push(list[i]);
+            data_ref.push(list[i]);
         }
+        
         
         return true;
     }
@@ -52,10 +59,15 @@
         return stored_data[type];
     }
     
+    function data___get_everything(){
+        return stored_data;
+    }
+    
     
     window.data = {};
     window.data.init     = data___init;
     window.data.save     = data___save;
     window.data.get_list = data___get_list;
+    window.data.get_everything = data___get_everything;
     
 })();

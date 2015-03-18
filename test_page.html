@@ -16,7 +16,7 @@
             
             
             function init(){
-                data.init();
+                data.init('nationals_test_simon');
             }
             
             function do_things(){
@@ -34,11 +34,39 @@
                 
                 console.log(data.get_list('student'));
             }
+            
+            function create_data(){
+                
+                // create some fake data for now
+                students = [{pk: 11,name : 'Simon Lemoine',university_fk : 21,category_fk : 32},{pk: 12,name : 'Ben Glover',university_fk : 22,category_fk : 31}];
+                unis = [{pk: 21,name : 'De Montfort University'},{pk: 22,name : 'Leicester Uni'}];
+                categories = [{pk: 31,name : 'High Fantasy'},{pk: 32, name : 'Sci Fi'}];
+                
+                data.save('student', students);
+                data.save('university', unis);
+                data.save('category', categories);
+                
+            }
+            
+            function get_data(type){
+                
+                var list = data.get_list(type);
+                
+                document.getElementById('display').innerHTML = JSON.stringify(list, null, 2).replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+                
+            }
+            
         
         </script>
         
     </head>
     <body onload="init();">
-        <button onclick="do_things()">Test</button>
+        <button onclick="create_data()">create_data</button>
+        <button onclick="get_data('student')">get_students</button>
+        <button onclick="get_data('university')">get_universities</button>
+        <button onclick="get_data('category')">get_categories</button>
+        
+        <div style="border:1px solid black;height:600px;width:1000px;overflow:auto;" id="display"></div>
+        
     </body>
 </html>
