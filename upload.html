@@ -25,10 +25,9 @@
                 init();
 
                 $('button').click(function() {
-                    var text = $('textarea').val();
-                    text = $.parseJSON(text)
-                    console.log(text);
                     save(text);
+                    var input = $('#jsonInput').val();
+                    var jsonOutput = $.parseJSON(input)
                 });
             });
         </script>
