@@ -17,17 +17,20 @@
                 data.init('nationals_test_ben1');
             }
 
-            function save(text){
-                data.save('student', text);
+            function save(table, data){
+                data.save(table, data);
             }
 
             $( document ).ready(function() {
                 init();
 
-                $('button').click(function() {
-                    save(text);
+                $('#submit').click(function() {
                     var input = $('#jsonInput').val();
                     var jsonOutput = $.parseJSON(input)
+
+                    var table = $('#table').val();
+                    console.log(table, jsonOutput);
+                    // save(table, jsonOutput);
                 });
             });
         </script>
