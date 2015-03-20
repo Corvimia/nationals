@@ -16,35 +16,22 @@
             
             
             function init(){
-                data.init('nationals_test_simon');
-            }
-            
-            function do_things(){
-            
-                var my_students = [];
                 
-                my_students.push({
-                    pk   : 15,
-                    name : 'Simon Test',
-                    university_fk : 21,
-                    category_fk   : 31
-                });
+                var db_name = document.getElementById('db_name').value;
             
-                data.save('student', my_students);
-                
-                console.log(data.get_list('student'));
+                data.init(db_name);
             }
             
             function create_data(){
                 
                 // create some fake data for now
-                students = [{name : 'Simon Lemoine',university_fk : 21,category_fk : 32},{name : 'Ben Glover',university_fk : 22,category_fk : 31}];
+                students = [{name : 'Simon Lemoine',university_name : 'De Montfort University',category_name : 'High Fantasy'},{name : 'Ben Glover',university_name : 'Leicester Uni',category_name : 'Sci Fi'}];
                 unis = [{name : 'De Montfort University'},{name : 'Leicester Uni'}];
                 categories = [{name : 'High Fantasy'},{name : 'Sci Fi'}];
                 
-                data.save('student', students);
                 data.save('university', unis);
                 data.save('category', categories);
+                data.save('student', students);
                 
             }
             
@@ -61,6 +48,8 @@
         
     </head>
     <body onload="init();">
+        <input type="text" id="db_name" value="nationals_test_simon">
+        <button onclick="init()">init</button>
         <button onclick="create_data()">create_data</button>
         <button onclick="get_data('student')">get_students</button>
         <button onclick="get_data('university')">get_universities</button>
