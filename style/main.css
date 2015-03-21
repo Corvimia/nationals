@@ -30,26 +30,54 @@
 body {
   background-color: #dadbdf;
   color: #000;
-  margin: 0 10px; }
+  margin: 0 10px;
+  font-family: "Helvetica Neue Light", "Helvetica", sans-serif;
+  font-weight: 300; }
 
-/* line 6, layout.sass */
+/* line 8, layout.sass */
 #most-things {
   max-width: 1024px;
   margin: auto;
   background-color: #fff; }
 
-/* line 11, layout.sass */
+/* line 13, layout.sass */
 header {
   font-family: akzidenz-grotesk;
   background-color: #a81d35;
   color: #fff;
   padding: 4px 50px; }
-  /* line 16, layout.sass */
+  /* line 18, layout.sass */
   header h1 {
     font-size: 40px; }
 
-/* line 20, layout.sass */
+/* line 22, layout.sass */
 main {
-  min-height: 400px; }
+  padding-top: 20px;
+  padding-bottom: 20px; }
+
+/* line 1, content.sass */
+table {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse; }
+  /* line 7, content.sass */
+  table thead tr {
+    border-bottom: 5px solid #fff; }
+  /* line 9, content.sass */
+  table thead th {
+    background-color: #a81d35;
+    color: #fff;
+    text-align: left;
+    font-size: 20px;
+    padding: 10px 20px; }
+  /* line 22, content.sass */
+  table tbody tr:nth-child(even) {
+    background-color: #e7e8ec; }
+  /* line 25, content.sass */
+  table tbody td {
+    color: #000; }
+    /* line 27, content.sass */
+    table tbody td:last-child {
+      text-align: right; }
 
 /*# sourceMappingURL=main.css.map */
