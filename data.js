@@ -3,11 +3,7 @@
 // private API
 (function (){
     
-    stored_data = {
-        student    : [],
-        university : [],
-        category   : []
-    };
+    var stored_data;
     
     var firebase;
     
@@ -31,6 +27,18 @@
         return max_pk + 1;
     }
     
+    // PRIVATE
+    // get the pk of the name
+    function get_table_fk(table, table_value){
+        for(var i = 0; i < stored_data[table].length; i++){
+            if(stored_data[table][i].name == table_value){
+                return stored_data[table][i].pk;
+            }
+        }
+        
+        return -1;
+    }
+    
     
     
     
@@ -44,6 +52,12 @@
             alert("You don't have a DB!");
             return;
         }
+        
+        stored_data = {
+            student    : [],
+            university : [],
+            category   : []
+        };
         
         // our base firebase URL
         var base_firebase = 'https://luminous-torch-1139.firebaseio.com/';
@@ -77,10 +91,32 @@
         
         data_ref = new Firebase(firebase + table);
         
+        // go through the list
         for(var i = 0; i < list.length; i++){
-            
+            // get the next pk
             list[i].pk = get_next_identity(table);
             
+            // go through the list of table
+            for(var stored_table in stored_data){
+                if(stored_data.hasOwnProperty(stored_table)){
+                    // check if our entry has a property with is the name of another table
+                    if(list[i][stored_table + '_name'] !== undefined){
+                        // get the pk linked to the name
+                        var table_value = list[i][stored_table + '_name'];
+                        var table_fk = get_table_fk(stored_table, table_value);
+                        
+                        if(table_fk == -1){
+                            console.error("Could not save entry because missing table value");
+                            continue;
+                        }
+                        
+                        delete list[i][stored_table + '_name'];
+                        list[i][stored_table + '_fk'] = table_fk;
+                    }
+                }
+            }
+            
+            // save our entry
             data_ref.push(list[i]);
         }
         
