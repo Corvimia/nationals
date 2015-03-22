@@ -25,13 +25,9 @@
             $( document ).ready(function() {
                 init();
 
-                $('#submit').click(function() {
-                    var input = $('#jsonInput').val();
-                    var jsonOutput = $.parseJSON(input)
+                var categoryJSON = data.get_list('category');
+                var studentJSON = data.get_list('student');
 
-                    var table = $('#table').val();
-                    console.log(table, jsonOutput);
-                    save(table, jsonOutput);
                 });
             });
         </script>
