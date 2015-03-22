@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Student Nationals 2015 - Game Masters Area</title>
+        <link rel="stylesheet" href="style/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+        <!-- You will need those 2 when you try to use our DB stuff -->
+        <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+        <script src="data.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+        
+        
+        
+        <script>
+            // some random junk for test
+
+            function init() {
+                data.init('nationals_test_data2');
+            }
+
+            function save(table, jsonOutput) {
+                data.save(table, jsonOutput);
+            }
+
+            $( document ).ready(function() {
+                init();
+
+                $('#submit').click(function() {
+                    var input = $('#jsonInput').val();
+                    var jsonOutput = $.parseJSON(input)
+
+                    var table = $('#table').val();
+                    console.log(table, jsonOutput);
+                    save(table, jsonOutput);
+                });
+            });
+        </script>
+        
+    </head>
+    <body>
+        <div id="everything">
+            <h1>Student Nationals 2015</h1>
+            <h2>Game Masters Area</h2>
+
+            <p>It is recommended to use an onilne excel to json converter such as <a href="http://shancarter.github.io/mr-data-converter/">http://shancarter.github.io/mr-data-converter/</a> to create the JSON object.</p>
+
+            <h3>Please select which DataBase table will the data be inputted into:</h3>
+            <select id="table">
+                <option value="student">Students Table</option>
+                <option value="university">University Table</option>
+                <option value="category">Category Table</option>
+            </select>
+
+            <h3>Please add the data in form of a JSON object:</h3>
+            <p>[{"pk":1,"name":"Boris","university_fk":1,"category_fk":2},</br>
+                {"pk":2,"name":"Ben","university_fk":2,"category_fk":1},</br>
+                {"pk":3,"name":"Joe","university_fk":3,"category_fk":4}]</p>
+            <textarea id="jsonInput" rows="10" cols="100" style="resize: none;"></textarea>
+
+            <h3>Please press submit when you are happy to submit the data:</h3>
+            <button id="submit">Submit</button>
+        </div>
+    </body>
+</html>
