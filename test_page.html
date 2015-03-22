@@ -25,13 +25,26 @@
             function create_data(){
                 
                 // create some fake data for now
-                students = [{name : 'Simon Lemoine',university_name : 'De Montfort University',category_name : 'High Fantasy'},{name : 'Ben Glover',university_name : 'Leicester Uni',category_name : 'Sci Fi'}];
-                unis = [{name : 'De Montfort University'},{name : 'Leicester Uni'}];
-                categories = [{name : 'High Fantasy'},{name : 'Sci Fi'}];
+                var students = [
+                    {name : 'Simon Lemoine',university_name : 'de Montfort university',category_name : 'High Fantasy'},
+                    {name : 'Preacher K',university_name : 'Leicester Uni',category_name : 'High Fantasy'},
+                    {name : 'Katie North',university_name : 'VAGUE',category_name : 'High Fantasy'},
+                    {name : 'Ben Glover',university_name : 'Leicester Uni',category_name : 'Sci Fi'},
+                    {name : 'Tom Lee',university_name : 'VAGUE',category_name : 'Sci Fi'},
+                    {name : 'Jack Cortese',university_name : 'De Montfort University',category_name : 'Sci Fi'}
+                ];
+                var unis = [{name : 'De Montfort University'},{name : 'Leicester Uni'},{name : 'VAGUE'}];
+                var categories = [{name : 'High Fantasy'},{name : 'Sci Fi'}];
+                
+                var winners = [
+                    {category_fk:1, first_student_fk : 2, second_student_fk : 1, third_student_fk : 3},
+                    {category_fk:2, first_student_fk : 5, second_student_fk : 6, third_student_fk : 4}
+                ];
                 
                 data.save('university', unis);
                 data.save('category', categories);
                 data.save('student', students);
+                data.save('winner', winners);
                 
             }
             
@@ -43,19 +56,49 @@
                 
             }
             
+            function add_points_to_uni(){
+                var uni_fk = Number(document.getElementById('uni_fk').value);
+                
+                var points = 1;
+                
+                data.save("score",[{university_fk : uni_fk, point : points}]);
+                
+            }
+            
+            function init_uni_total(){
+                data.init_university_total(change_display_uni);
+            }
+            
+            function change_display_uni(uni_details){
+                document.getElementById('display2').innerHTML = 'uni_fk : '+uni_details.university_fk+'<br>uni_name : '+uni_details.university_name+'<br>total : ' +uni_details.total;
+            }
+            
         
         </script>
         
     </head>
     <body onload="init();">
-        <input type="text" id="db_name" value="nationals_test_simon">
-        <button onclick="init()">init</button>
-        <button onclick="create_data()">create_data</button>
-        <button onclick="get_data('student')">get_students</button>
-        <button onclick="get_data('university')">get_universities</button>
-        <button onclick="get_data('category')">get_categories</button>
-        
-        <div style="border:1px solid black;height:600px;width:1000px;overflow:auto;" id="display"></div>
-        
+        <table style="width:100%;height:100%;border-collapse:collapse;">
+            <tr>
+                <td>
+                    <input type="text" id="db_name" value="nationals_test_simon">
+                    <button onclick="init()">init</button>
+                    <button onclick="create_data()">create_data</button>
+                    <button onclick="get_data('student')">get_students</button>
+                    <button onclick="get_data('university')">get_universities</button>
+                    <button onclick="get_data('category')">get_categories</button>
+                    <button onclick="get_data('winner')">get_winners</button>
+                    <button onclick="get_data('score')">get_score</button>
+                    
+                    <div style="border:1px solid black;height:600px;width:1000px;overflow:auto;" id="display"></div>
+                </td>
+                <td>
+                    <input type="text" id="uni_fk" value="1">
+                    <button onclick="add_points_to_uni()">add_points_to_uni</button>
+                    <button onclick="init_uni_total()">init_uni_total</button>
+                    <div style="border:1px solid black;height:600px;width:1000px;overflow:auto;" id="display2"></div>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>
