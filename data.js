@@ -31,7 +31,7 @@
     // get the pk of the name
     function get_table_fk(table, table_value){
         for(var i = 0; i < stored_data[table].length; i++){
-            if(stored_data[table][i].name == table_value){
+            if(stored_data[table][i].name.toLowerCase() == table_value.toLowerCase()){
                 return stored_data[table][i].pk;
             }
         }
@@ -76,6 +76,32 @@
     }
     
     
+    
+    // PRIVATE
+    function replace_name_for_fk(entry){
+    
+        // go through the list of table
+        for(var stored_table in stored_data){
+            if(stored_data.hasOwnProperty(stored_table)){
+                // check if our entry has a property with is the name of another table
+                if(entry[stored_table + '_name'] !== undefined){
+                    // get the pk linked to the name
+                    var table_value = entry[stored_table + '_name'];
+                    var table_fk = get_table_fk(stored_table, table_value);
+                    
+                    if(table_fk == -1){
+                        console.error("Could not save entry because missing table value");
+                        continue;
+                    }
+                    
+                    delete entry[stored_table + '_name'];
+                    entry[stored_table + '_fk'] = table_fk;
+                }
+            }
+        }
+        return entry;
+    }
+    
     // PUBLIC
     // Saves a list of data in a certain format
     //  table: name of the table you want to insert into
@@ -90,30 +116,15 @@
         
         var data_ref = new Firebase(firebase + table);
         
+        
+        
         // go through the list
         for(var i = 0; i < list.length; i++){
             // get the next pk
             list[i].pk = get_next_identity(table);
             
-            // go through the list of table
-            for(var stored_table in stored_data){
-                if(stored_data.hasOwnProperty(stored_table)){
-                    // check if our entry has a property with is the name of another table
-                    if(list[i][stored_table + '_name'] !== undefined){
-                        // get the pk linked to the name
-                        var table_value = list[i][stored_table + '_name'];
-                        var table_fk = get_table_fk(stored_table, table_value);
-                        
-                        if(table_fk == -1){
-                            console.error("Could not save entry because missing table value");
-                            continue;
-                        }
-                        
-                        delete list[i][stored_table + '_name'];
-                        list[i][stored_table + '_fk'] = table_fk;
-                    }
-                }
-            }
+            list[i] = replace_name_for_fk(list[i]);
+            
             
             // save our entry
             data_ref.push(list[i]);
