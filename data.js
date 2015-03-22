@@ -56,7 +56,9 @@
         stored_data = {
             student    : [],
             university : [],
-            category   : []
+            category   : [],
+            winner     : [],
+            score      : []
         };
         
         // our base firebase URL
@@ -65,14 +67,11 @@
         // our DB access string
         firebase = base_firebase + db_name + '/';
         
-        // init the student list
-        new Firebase(firebase + 'student').on("child_added", function(snapshot){ fb_add_data('student', snapshot) });
-        
-        // init the university list
-        new Firebase(firebase + 'university').on("child_added", function(snapshot){ fb_add_data('university', snapshot) });
-        
-        // init the category list
-        new Firebase(firebase + 'category').on("child_added", function(snapshot){ fb_add_data('category', snapshot) });
+        new Firebase(firebase + 'student'   ).on("child_added", function(snapshot){ fb_add_data('student',    snapshot); });
+        new Firebase(firebase + 'university').on("child_added", function(snapshot){ fb_add_data('university', snapshot); });
+        new Firebase(firebase + 'category'  ).on("child_added", function(snapshot){ fb_add_data('category',   snapshot); });
+        new Firebase(firebase + 'winner'    ).on("child_added", function(snapshot){ fb_add_data('winner',     snapshot); });
+        new Firebase(firebase + 'score'     ).on("child_added", function(snapshot){ fb_add_data('score',     snapshot); });
         
     }
     
@@ -89,7 +88,7 @@
             return false;
         }
         
-        data_ref = new Firebase(firebase + table);
+        var data_ref = new Firebase(firebase + table);
         
         // go through the list
         for(var i = 0; i < list.length; i++){
@@ -124,6 +123,55 @@
         return true;
     }
     
+    // PUBLIC
+    // create a callback when university get points
+    // it will call the function with the new total for the uni
+    //  callback : function callback when points are added
+    //  return an object
+    function data___init_university_total(callback){
+        
+        new Firebase(firebase + 'score' ).on("child_added", function(snapshot){
+            var new_score = snapshot.val();
+            
+            var score_list = stored_data.score;
+            
+            var uni_details = {
+                university_fk : new_score.university_fk,
+                total         : 0
+            }
+            
+            uni_details.university_name = data___get_entry('university', uni_details.university_fk).name;
+            
+            for(var i = 0; i < score_list.length; i++){
+                if(score_list[i].university_fk == new_score.university_fk){
+                    uni_details.total += score_list[i].point;
+                }
+            }
+            
+            callback.call(window, uni_details);
+            
+        });
+    }
+    
+    // PUBLIC
+    // return an entry with a certain pk
+    //  table: name of table you want to get the entry fromCharCode
+    //  pk : entry you want to get
+    //  return an object
+    function data___get_entry(table, pk){
+        var list = stored_data[table];
+        
+        for(var i = 0; i < list.length; i++){
+            if(list[i].pk == pk){
+                return list[i];
+            }
+        }
+        
+        console.error("Could not retrieve " + table + " with pk " + pk);
+        
+        return null;
+    }
+    
     
     // PUBLIC
     // return the list of a certain table
@@ -142,9 +190,11 @@
     
     
     window.data = {};
-    window.data.init           = data___init;
-    window.data.save           = data___save;
-    window.data.get_list       = data___get_list;
-    window.data.get_everything = data___get_everything;
+    window.data.init                  = data___init;
+    window.data.init_university_total = data___init_university_total;
+    window.data.save                  = data___save;
+    window.data.get_list              = data___get_list;
+    window.data.get_entry             = data___get_entry;
+    window.data.get_everything        = data___get_everything;
     
 })();
