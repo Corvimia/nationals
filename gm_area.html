@@ -12,8 +12,6 @@
         
         
         <script>
-            // some random junk for test
-
             function init() {
                 data.init('nationals_test_data2');
             }
@@ -22,14 +20,21 @@
                 data.save(table, jsonOutput);
             }
 
-            $( document ).ready(function() {
+            $(document).ready(function() {
                 init();
 
                 var categoryJSON = data.get_list('category');
                 var studentJSON = data.get_list('student');
 
+                $.each(categoryJSON, function(index, categoryObj) {  
+                    $.each(categoryObj, function(key, name) {
+                        $('#categoryCombo')
+                            .append($('<option>')
+                            .attr("value", name)
+                            .text(name));
+                    });
                 });
-            });
+            });    
         </script>
         
     </head>
