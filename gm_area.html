@@ -1,70 +1,127 @@
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Student Nationals 2015 - Game Masters Area</title>
-        <link rel="stylesheet" href="style/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
-        <!-- You will need those 2 when you try to use our DB stuff -->
-        <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-        <script src="data.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
-        
-        
-        
-        <script>
-            function init() {
-                data.init('nationals_test_data2');
+<head>
+    <meta charset="UTF-8">
+    <title>Student Nationals 2015 - Game Masters Area</title>
+    <link rel="stylesheet" href="style/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <!-- You will need those 2 when you try to use our DB stuff -->
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src="data.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>    
+
+    <script>
+    function init() {
+        data.init('nationals_test_data2');
+    }
+
+    function save(table, jsonOutput) {
+        data.save(table, jsonOutput);
+    }
+
+    function jsonToComboBox(jsonInput, target, value) {
+        target.empty();
+        target.append( $('<option></option>'));
+        $.each(jsonInput, function(i,d){
+            target.append( $('<option></option>').attr('value', d[value]).html(d['name']));
+        });
+    }
+
+    function getObjects(obj, key, val) {
+        var objects = [];
+        for (var i in obj) {
+            if (!obj.hasOwnProperty(i)) continue;
+            if (typeof obj[i] == 'object') {
+                objects = objects.concat(getObjects(obj[i], key, val));
+            } else if (i == key && obj[key] == val) {
+                objects.push(obj);
             }
+        }
+        return objects;
+    }
 
-            function save(table, jsonOutput) {
-                data.save(table, jsonOutput);
-            }
+    $(document).ready(function() {
+        init();
 
-            $(document).ready(function() {
-                init();
+        var categoryJSON = data.get_list('category');
 
-                var categoryJSON = data.get_list('category');
-                var studentJSON = data.get_list('student');
+        $('#initialize').click(function() {
+            jsonToComboBox(categoryJSON, $('#categoryCombo'), 'pk');
+        });
 
-                $.each(categoryJSON, function(index, categoryObj) {  
-                    $.each(categoryObj, function(key, name) {
-                        $('#categoryCombo')
-                            .append($('<option>')
-                            .attr("value", name)
-                            .text(name));
-                    });
-                });
-            });    
-        </script>
-        
-    </head>
-    <body>
-        <div id="everything">
-            <h1>Student Nationals 2015</h1>
-            <h2>Game Masters Area</h2>
+        var studentJSON = data.get_list('student');
+        var categorySelection, firstStudentSelection, secondStudentSelection, thirdStudentSelection;
 
-            <h3>Category:</h3>
-            <select id="categoryCombo">
-                
-            </select>
+        $( "#categoryCombo" ).change(function() {
+            categorySelection = $( "#categoryCombo" ).find(":selected").val();
 
-            <h3>1st Place:</h3>
-            <select id="winnerCombo">
-                
-            </select>
+            console.log(categorySelection);
 
-            <h3>2nd Place:</h3>
-            <select id="secondCombo">
-                
-            </select>
+            var students = $.grep(studentJSON, function(n,i) {
+                return n.category_fk == categorySelection;
+            });
 
-            <h3>3rd Place:</h3>
-            <select id="thirdCombo">
-                
-            </select>
+            console.log(students);
 
-            <h3>Please press submit when you are happy to submit the data:</h3>
-            <button id="submit">Submit</button>
-        </div>
-    </body>
+            jsonToComboBox(students, $('#winnerCombo'), 'pk');
+            jsonToComboBox(students, $('#secondCombo'), 'pk');
+            jsonToComboBox(students, $('#thirdCombo'), 'pk');
+        });
+
+        $( "#winnerCombo" ).change(function() {
+            firstStudentSelection = $( "#winnerCombo" ).find(":selected").val();
+        });
+
+        $( "#secondCombo" ).change(function() {
+            secondStudentSelection = $( "#secondCombo" ).find(":selected").val();
+        });
+
+        $( "#thirdCombo" ).change(function() {
+            thirdStudentSelection = $( "#thirdCombo" ).find(":selected").val();
+        });
+
+        $('#submit').click(function() {
+            var input = new Object();
+            input.category_fk = categorySelection;
+            input.first_student_fk = firstStudentSelection;
+            input.second_student_fk = secondStudentSelection;
+            input.third_student_fk = thirdStudentSelection;
+            var jsonOutput = input;
+
+            // console.log(jsonOutput);
+            save('winners', jsonOutput);
+        });
+
+    });    
+    </script>
+
+</head>
+<body>
+    <div id="everything">
+        <h1>Student Nationals 2015</h1>
+        <h2>Game Masters Area</h2>
+        <button id="initialize">Initialize</button>
+        <h3>Category:</h3>
+        <select id="categoryCombo">
+
+        </select>
+
+        <h3>1st Place:</h3>
+        <select id="winnerCombo">
+
+        </select>
+
+        <h3>2nd Place:</h3>
+        <select id="secondCombo">
+
+        </select>
+
+        <h3>3rd Place:</h3>
+        <select id="thirdCombo">
+
+        </select>
+
+        <h3>Please press submit when you are happy to submit the data:</h3>
+        <button id="submit">Submit</button>
+    </div>
+</body>
 </html>
