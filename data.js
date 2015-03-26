@@ -76,21 +76,12 @@
     }
     
     
-    function check_for_duplicate(table, entry){
+    function check_for_duplicate(table, entry, prevent_duplicate_property){
 
         var list = stored_data[table];
 
         for(var i = 0; i < list.length; i++){
-            var different = false;
-
-            for ( var property in entry){
-                if(entry.hasOwnProperty(property)){
-                    if(entry[property] != list[i][property]){
-                        different = true;
-                    }
-                }
-            }
-            if(different == false){
+            if(entry[prevent_duplicate_property] == list[i][prevent_duplicate_property]){
                 return true;
             }
 
@@ -136,26 +127,20 @@
     //      i.e: student, university, etc
     //  list: array of js object
     //  return bool if successful
-    function data___save(table, list, prevent_duplicate){
+    function data___save(table, list, prevent_duplicate_property){
         
         if(!stored_data[table]){
             return false;
         }
-        // default value
-        if(!prevent_duplicate) {prevent_duplicate = false;}
-        
+
         var data_ref = new Firebase(firebase + table);
-        
-        
-
-
         
         // go through the list
         for(var i = 0; i < list.length; i++){
 
-            if(prevent_duplicate){
+            if(prevent_duplicate_property){
 
-                if(check_for_duplicate(table, list[i])){
+                if(check_for_duplicate(table, list[i], prevent_duplicate_property)){
                     alert("You have already saved this entry. You cannot re-save it. If you have made a mistake, please call The French.");
                     continue;
                 }
