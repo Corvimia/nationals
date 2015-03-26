@@ -9,6 +9,31 @@
     <script src="data.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>    
 
+    <style type="text/css">
+        #overlay{
+
+            position:absolute;
+            z-index: 10;
+            width:95%;
+            height:95%;
+            left:0px;
+            top:0px;
+            font-size: 36px;
+            background-color:white;
+            border-radius: 20px;
+            border:5px solid black;
+            top:2.5%;
+            left:2.5%;
+        }
+        #overlay div{
+
+            width:300px;
+            height:100px;
+            margin:auto;
+            margin-top:200px;
+        }
+    </style>
+
     <script>
     function init() {
         data.init('nationals_test_data2');
@@ -16,6 +41,7 @@
 
     function save(table, jsonOutput) {
         data.save(table, jsonOutput, 'category_fk');
+        alert("Submitted Successfully.")
     }
 
     function jsonToComboBox(jsonInput, target, value) {
@@ -42,10 +68,13 @@
     $(document).ready(function() {
         init();
 
+        setTimeout("$('#initialize').trigger('click');",5000);
+
         var categoryJSON = data.get_list('category');
 
         $('#initialize').click(function() {
             jsonToComboBox(categoryJSON, $('#categoryCombo'), 'pk');
+            $('#overlay').hide();
         });
 
         var studentJSON = data.get_list('student');
@@ -87,8 +116,25 @@
             input.third_student_fk = thirdStudentSelection;
             var jsonOutput = input;
 
+            if(firstStudentSelection == secondStudentSelection || firstStudentSelection == thirdStudentSelection || secondStudentSelection == thirdStudentSelection ){
+
+                alert("Two of your choices are the same. Please re-select your winners.");
+                return;
+
+            }
+
+            if(!confirm("You have selected the following winners for this category: " + data.get_entry('category',categorySelection).name
+                + "\n1st: " + data.get_entry('student',firstStudentSelection).name
+                + "\n2nd: " + data.get_entry('student',secondStudentSelection).name
+                + "\n3rd: " + data.get_entry('student',thirdStudentSelection).name
+                + "\n\nAre you sure this is the right result? You will have no way of changing it!"
+                )){
+                return;
+            }
+
+
             // console.log(jsonOutput);
-            save('winners', jsonOutput);
+            save('winner', [jsonOutput]);
         });
 
     });    
@@ -99,7 +145,7 @@
     <div id="everything">
         <h1>Student Nationals 2015</h1>
         <h2>Game Masters Area</h2>
-        <button id="initialize">Initialize</button>
+        <button style="display:none;" id="initialize">Initialize</button>
         <h3>Category:</h3>
         <select id="categoryCombo">
 
@@ -123,5 +169,7 @@
         <h3>Please press submit when you are happy to submit the data:</h3>
         <button id="submit">Submit</button>
     </div>
+
+    <div id="overlay"><div>Please Wait...</div></div>
 </body>
 </html>
