@@ -71,11 +71,35 @@
         new Firebase(firebase + 'university').on("child_added", function(snapshot){ fb_add_data('university', snapshot); });
         new Firebase(firebase + 'category'  ).on("child_added", function(snapshot){ fb_add_data('category',   snapshot); });
         new Firebase(firebase + 'winner'    ).on("child_added", function(snapshot){ fb_add_data('winner',     snapshot); });
-        new Firebase(firebase + 'score'     ).on("child_added", function(snapshot){ fb_add_data('score',     snapshot); });
+        new Firebase(firebase + 'score'     ).on("child_added", function(snapshot){ fb_add_data('score',      snapshot); });
         
     }
     
     
+    function check_for_duplicate(table, entry){
+
+        var list = stored_data[table];
+
+        for(var i = 0; i < list.length; i++){
+            var different = false;
+
+            for ( var property in entry){
+                if(entry.hasOwnProperty(property)){
+                    if(entry[property] != list[i][property]){
+                        different = true;
+                    }
+                }
+            }
+            if(different == false){
+                return true;
+            }
+
+        }
+
+        return false;
+
+    }
+
     
     // PRIVATE
     function replace_name_for_fk(entry){
@@ -112,18 +136,32 @@
     //      i.e: student, university, etc
     //  list: array of js object
     //  return bool if successful
-    function data___save(table, list){
+    function data___save(table, list, prevent_duplicate){
         
         if(!stored_data[table]){
             return false;
         }
+        // default value
+        if(!prevent_duplicate) {prevent_duplicate = false;}
         
         var data_ref = new Firebase(firebase + table);
         
         
+
+
         
         // go through the list
         for(var i = 0; i < list.length; i++){
+
+            if(prevent_duplicate){
+
+                if(check_for_duplicate(table, list[i])){
+                    alert("You have already saved this entry. You cannot re-save it. If you have made a mistake, please call The French.");
+                    continue;
+                }
+
+            }
+
             // get the next pk
             list[i].pk = get_next_identity(table);
             
