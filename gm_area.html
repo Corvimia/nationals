@@ -15,12 +15,12 @@
     }
 
     function save(table, jsonOutput) {
-        data.save(table, jsonOutput);
+        data.save(table, jsonOutput, 'category_fk');
     }
 
     function jsonToComboBox(jsonInput, target, value) {
         target.empty();
-        target.append( $('<option></option>'));
+        target.append( $('<option>Please Select</option>'));
         $.each(jsonInput, function(i,d){
             target.append( $('<option></option>').attr('value', d[value]).html(d['name']));
         });
