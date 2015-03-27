@@ -5,10 +5,11 @@
 
 (function () {
 
-	data.init('nationals_test_simon');
+	data.init('nationals_test_data2');
 	create_data();	
 	populate_category();
 	populate_leaderboard();
+	data.init_university_total(uni_callback)
 	var space_count = 0;
 	
 	
@@ -19,11 +20,15 @@
 		}
 	}
 	
+	function uni_callback(uni_details) {
+		console.log(uni_details)
+	}
+	
 	function space_pressed () {
 		var category_section = document.getElementById('category');
 		var table_row = null;
 		if (space_count > 0) {
-			table_row = category_section.querySelector('tbody').children[space_count-1]
+			table_row = category_section.querySelector('tbody').children[3-(space_count)]
 			if (table_row) {
 				$(table_row).fadeIn();
 				++space_count;
@@ -60,7 +65,8 @@
 	}
 	
 	function populate_category() {
-		var competitor, i, number_names = ['first', 'second', 'third'];
+		var competitor, i, number_names = ['first', 'second', 'third'],
+		number_names_2 = ['1st', '2nd', '3rd'];
 		
 		var list = data.get_list('winner');
 		
@@ -81,7 +87,7 @@
 		var output_str = '';
 		for (i = 0; i < 3; i++) {
 			competitor = competitors[i];
-			output_str += '<tr><td>' + competitor.name + '</td><td>' + competitor.team_name + '</td></tr>';
+			output_str += '<tr><td>'+number_names_2[i]+'</td><td>' + competitor.name + '</td><td>' + competitor.team_name + '</td></tr>';
 		}
 		
 		category_table_body.innerHTML = output_str;
