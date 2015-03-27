@@ -89,7 +89,11 @@
                     var table_fk = get_table_fk(stored_table, table_value);
                     
                     if(table_fk == -1){
-                        console.error("Could not save entry because missing table value");
+                        console.error("Could not save entry because missing table value.",{
+                            table: stored_table,
+                            incorrect_value: table_value,
+                            entry: entry
+                        });
                         continue;
                     }
                     
