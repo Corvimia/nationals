@@ -6,11 +6,34 @@
 (function () {
 
 	data.init('nationals_test_simon');
-	create_data();
-	get_data('winner');
-	
+	create_data();	
 	populate_category();
 	populate_leaderboard();
+	var space_count = 0;
+	
+	
+	document.onkeypress=function(e){
+	 var e=window.event || e
+		if (e.charCode===32) {
+			space_pressed();
+		}
+	}
+	
+	function space_pressed () {
+		var category_section = document.getElementById('category');
+		var table_row = null;
+		if (space_count > 0) {
+			table_row = category_section.querySelector('tbody').children[space_count-1]
+			if (table_row) {
+				table_row.style.display = 'table-row';
+				++space_count;
+			}
+		} else {
+			category_section.style.visibility = 'visible';
+			++space_count;
+		}
+		
+	}
 	
 	function create_data(){
 		
