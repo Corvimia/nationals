@@ -25,11 +25,11 @@
 		if (space_count > 0) {
 			table_row = category_section.querySelector('tbody').children[space_count-1]
 			if (table_row) {
-				table_row.style.display = 'table-row';
+				$(table_row).fadeIn();
 				++space_count;
 			}
 		} else {
-			category_section.style.visibility = 'visible';
+			$(category_section).css('visibility', 'visible').hide().fadeIn();
 			++space_count;
 		}
 		
