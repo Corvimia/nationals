@@ -1,3 +1,11 @@
+/* line 1, main.sass */
+html {
+  box-sizing: border-box; }
+
+/* line 4, main.sass */
+*, *:before, *:after {
+  box-sizing: inherit; }
+
 /*{"c":"2015-03-19T02:45:34Z","s":"prod-origin-40d6b0ad","v":"a36c19"} */
 /* The Typekit service used to deliver this font or fonts for use on websites
  * is provided by Adobe and is subject to these Terms of Use
@@ -53,31 +61,61 @@ header {
 /* line 22, layout.sass */
 main {
   padding-top: 20px;
-  padding-bottom: 20px; }
+  padding-bottom: 20px;
+  overflow: hidden; }
+  @media (max-width: 600px) {
+    /* line 22, layout.sass */
+    main {
+      overflow: auto; } }
+
+/* line 30, layout.sass */
+section {
+  width: 50%;
+  float: left;
+  padding: 0 5px; }
+  @media (max-width: 600px) {
+    /* line 30, layout.sass */
+    section {
+      float: none;
+      width: auto; } }
+  /* line 42, layout.sass */
+  section#category {
+    text-align: right; }
 
 /* line 1, content.sass */
 table {
-  margin-left: auto;
-  margin-right: auto;
   border-collapse: collapse; }
-  /* line 7, content.sass */
+  /* line 5, content.sass */
   table thead tr {
     border-bottom: 5px solid #fff; }
-  /* line 9, content.sass */
+  /* line 7, content.sass */
   table thead th {
     background-color: #a81d35;
     color: #fff;
     text-align: left;
     font-size: 20px;
     padding: 10px 20px; }
-  /* line 22, content.sass */
+  /* line 20, content.sass */
   table tbody tr:nth-child(even) {
     background-color: #e7e8ec; }
-  /* line 25, content.sass */
+  /* line 23, content.sass */
   table tbody td {
     color: #000; }
-    /* line 27, content.sass */
+    /* line 25, content.sass */
     table tbody td:last-child {
       text-align: right; }
+
+/* line 29, content.sass */
+#category {
+  text-align: left; }
+  /* line 31, content.sass */
+  #category table {
+    margin-left: auto; }
+    /* line 34, content.sass */
+    #category table tbody {
+      text-align: left; }
+      /* line 36, content.sass */
+      #category table tbody td:last-child {
+        text-align: left; }
 
 /*# sourceMappingURL=main.css.map */
