@@ -3,9 +3,7 @@
 // private API
 (function (){
     
-    var stored_data;
-    
-    var firebase;
+    var stored_data, firebase;
     
     // PRIVATE
     // FB
@@ -17,10 +15,10 @@
     // PRIVATE
     // get the next identity for a table
     function get_next_identity(table){
-        var list = stored_data[table];
+        var i, list = stored_data[table];
         
         var max_pk = 0;
-        for(var i = 0; i < list.length; i++){
+        for(i = 0; i < list.length; i++){
             max_pk = Math.max(max_pk, list[i].pk);
         }
         
@@ -30,7 +28,8 @@
     // PRIVATE
     // get the pk of the name
     function get_table_fk(table, table_value){
-        for(var i = 0; i < stored_data[table].length; i++){
+		var i;
+        for(i = 0; i < stored_data[table].length; i++){
             if(stored_data[table][i].name.toLowerCase() == table_value.toLowerCase()){
                 return stored_data[table][i].pk;
             }
@@ -49,7 +48,7 @@
     function data___init(db_name){
         
         if(!db_name){
-            alert("You don't have a DB!");
+            throw new Exception('You don\'t have a DB!');
             return;
         }
         
@@ -79,9 +78,9 @@
     
     // PRIVATE
     function replace_name_for_fk(entry){
-    
+	    var stored_table;
         // go through the list of table
-        for(var stored_table in stored_data){
+        for(stored_table in stored_data){
             if(stored_data.hasOwnProperty(stored_table)){
                 // check if our entry has a property with is the name of another table
                 if(entry[stored_table + '_name'] !== undefined){
