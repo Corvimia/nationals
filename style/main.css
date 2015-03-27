@@ -84,7 +84,8 @@ section {
 
 /* line 1, /Users/thomaslee/code/nationals/style/content.sass */
 table {
-  border-collapse: collapse; }
+  border-collapse: collapse;
+  width: 100%; }
   /* line 5, /Users/thomaslee/code/nationals/style/content.sass */
   table thead tr {
     border-bottom: 5px solid #fff; }
