@@ -28,7 +28,7 @@
 		var category_section = document.getElementById('category');
 		var table_row = null;
 		if (space_count > 0) {
-			table_row = category_section.querySelector('tbody').children[3-(space_count)]
+			table_row = category_section.querySelector('tbody').children[3-space_count]
 			if (table_row) {
 				$(table_row).fadeIn();
 				++space_count;
@@ -91,6 +91,7 @@
 		}
 		
 		category_table_body.innerHTML = output_str;
+		document.querySelector('#category h2').innerHTML = category_name + ' Winners'
 	}
 	
 	function populate_leaderboard() {
