@@ -82,45 +82,45 @@ section {
   section#category {
     text-align: right; }
 
-/* line 1, /Users/thomaslee/code/nationals/style/content.sass */
+/* line 1, content.sass */
 table {
   border-collapse: collapse;
   width: 100%; }
-  /* line 5, /Users/thomaslee/code/nationals/style/content.sass */
+  /* line 5, content.sass */
   table thead tr {
     border-bottom: 5px solid #fff; }
-  /* line 7, /Users/thomaslee/code/nationals/style/content.sass */
+  /* line 7, content.sass */
   table thead th {
     background-color: #a81d35;
     color: #fff;
     text-align: left;
     font-size: 20px;
     padding: 10px 20px; }
-  /* line 20, /Users/thomaslee/code/nationals/style/content.sass */
+  /* line 20, content.sass */
   table tbody tr:nth-child(even) {
     background-color: #e7e8ec; }
-  /* line 23, /Users/thomaslee/code/nationals/style/content.sass */
+  /* line 23, content.sass */
   table tbody td {
     color: #000; }
-    /* line 25, /Users/thomaslee/code/nationals/style/content.sass */
+    /* line 25, content.sass */
     table tbody td:last-child {
       text-align: right; }
 
-/* line 29, /Users/thomaslee/code/nationals/style/content.sass */
+/* line 29, content.sass */
 #category {
   visibility: hidden;
   text-align: left; }
-  /* line 32, /Users/thomaslee/code/nationals/style/content.sass */
+  /* line 32, content.sass */
   #category table {
     margin-left: auto; }
-    /* line 35, /Users/thomaslee/code/nationals/style/content.sass */
+    /* line 35, content.sass */
     #category table tbody {
       text-align: left; }
-      /* line 38, /Users/thomaslee/code/nationals/style/content.sass */
-      #category table tbody tr {
-        display: none; }
-      /* line 40, /Users/thomaslee/code/nationals/style/content.sass */
-      #category table tbody td:last-child {
-        text-align: left; }
+      /* line 39, content.sass */
+      #category table tbody tr td {
+        opacity: 0; }
+        /* line 42, content.sass */
+        #category table tbody tr td:last-child {
+          text-align: left; }
 
 /*# sourceMappingURL=main.css.map */

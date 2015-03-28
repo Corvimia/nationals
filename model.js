@@ -24,6 +24,8 @@
 		Competitor.prototype.name = '';
 		Competitor.prototype.id = -1;
 		Competitor.prototype.team_name;
+		Competitor.prototype.points = 0;
+		Competitor.prototype.university_id;
 		
 		function Competitor() {
 	
@@ -32,7 +34,7 @@
 		
 		Competitor.prototype.find_and_set_name_and_team = function () {
 			var competitor_data = data.get_entry('student', this.id)
-			
+			this.university_id = competitor_data.university_fk;
 			this.name = competitor_data.name;
 			this.team_name = data.get_entry('university', competitor_data.university_fk).name;
 			
