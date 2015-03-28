@@ -139,7 +139,7 @@
 			points: competitor.points
 		};
 		
-		//data.save('score', score);
+		data.save('score', [score]);
 	}
 	
 	
