@@ -4,7 +4,7 @@
 // window.data.get_everything = data___get_everything;
 
 (function () {
-
+	new Firebase('https://luminous-torch-1139.firebaseio.com/nationals_test_tom4/score').remove();
 	data.init('nationals_test_tom4');
 	
 	setTimeout(function() {
@@ -26,8 +26,15 @@
 	
 	//save an object with 
 	function uni_callback(uni_details) {
-		console.log('callback!')
 		console.log(uni_details)
+		var points_table_rows = toArray(document.querySelectorAll('#points-table tbody tr'));
+		
+		points_table_rows.forEach(function (row, index, array) {
+			if ($(row).data('uid')===uni_details.university_fk) {
+				row.children[1].innerHTML=uni_details.total;
+			}
+		});
+		
 	}
 	
 	function space_pressed () {
@@ -123,7 +130,7 @@
 		var output_str = '';
 		for (i = 0; i < list.length; i++) {
 			university = universities[i];
-			output_str += '<tr><td>' + university.name + '</td><td>' + university.points + '</td></tr>';
+			output_str += '<tr data-uid="'+university.id+'"><td>' + university.name + '</td><td>' + university.points + '</td></tr>';
 		}
 		
 		points_table_body.innerHTML = output_str;
@@ -136,7 +143,7 @@
 			university_fk:competitor.university_id,
 			category_fk: competitor.category_id,
 			rank: competitor.rank,
-			points: competitor.points
+			point: competitor.points
 		};
 		
 		data.save('score', [score]);
@@ -153,5 +160,14 @@
 		
 	}
 	
+	
+	function toArray(obj) {
+	  var array = [];
+	  // iterate backwards ensuring that length is an UInt32
+	  for (var i = obj.length >>> 0; i--;) { 
+	    array[i] = obj[i];
+	  }
+	  return array;
+	}
 	
 })();
