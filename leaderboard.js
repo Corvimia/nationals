@@ -14,19 +14,20 @@
 		populate_leaderboard();
 		num_categories = data.get_list('category').length;
 		data.init_university_total(uni_callback);
+		document.onkeypress=function(e){
+		 	var e = window.event || e;
+			if (e.charCode===32) {
+				e.preventDefault();
+				space_pressed();
+			
+			}
+		}
 	}, 2000);
 
 	
 	
 	
-	document.onkeypress=function(e){
-	 	var e = window.event || e;
-		if (e.charCode===32) {
-			e.preventDefault();
-			space_pressed();
-			
-		}
-	}
+
 	
 	//save an object with 
 	function uni_callback(uni_details) {
