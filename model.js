@@ -25,7 +25,9 @@
 		Competitor.prototype.id = -1;
 		Competitor.prototype.team_name;
 		Competitor.prototype.points = 0;
-		Competitor.prototype.university_id;
+		Competitor.prototype.university_id = -1;
+		Competitor.prototype.category_id = -1;
+		Competitor.prototype.rank = 0;
 		
 		function Competitor() {
 	

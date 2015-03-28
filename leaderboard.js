@@ -26,6 +26,7 @@
 	
 	//save an object with 
 	function uni_callback(uni_details) {
+		console.log('callback!')
 		console.log(uni_details)
 	}
 	
@@ -33,8 +34,6 @@
 		var category_section = document.getElementById('category');
 		var table_row = null, table_cells = null;
 		var space_position = space_count % 4
-		
-		
 		
 		if (space_position > 0) {
 			
@@ -44,6 +43,8 @@
 				
 			} else {
 				table_row = category_section.querySelector('tbody').children[3-space_position];
+				
+				push_score_data(table_row);
 		
 				table_cells = table_row.children
 				$(table_cells).animate({opacity: 1}, 500);
@@ -61,7 +62,8 @@
 	
 	function populate_category() {
 		var competitor, i, number_names = ['first', 'second', 'third'],
-		number_names_2 = ['1st', '2nd', '3rd'];
+		number_names_2 = ['1st', '2nd', '3rd'],
+		points = [6, 3, 1]
 		
 		var list = data.get_list('winner');
 		
@@ -69,13 +71,16 @@
 			return false;
 		}
 		
-		var category_name = data.get_entry('category', list[category_list_count].category_fk).name;
+		var category_id = list[category_list_count].category_fk;
+		var category_name = data.get_entry('category', category_id).name;
 		
 		var competitors = [];
 		for (i = 0; i < 3; i++) {
 			competitor = new Competitor();
 			competitor.id = list[category_list_count][number_names[i]+"_student_fk"];
 			competitor.find_and_set_name_and_team();
+			competitor.points = points[i];
+			competitor.category_id = 
 			competitors.push(competitor);
 		}
 		
@@ -89,7 +94,13 @@
 		}
 		
 		category_table_body.innerHTML = output_str;
-		document.querySelector('#category h2').innerHTML = category_name + ' Winners'
+		
+		for (i = 0; i < 3; i++) {
+			$(category_table_body.children[i]).data('competitor', competitors[i]);
+		}
+		
+		
+		document.querySelector('#category h2').innerHTML = category_name + ' Winners';
 		category_list_count++;
 		
 		return true;
@@ -106,7 +117,6 @@
 			university.id = list[i].pk;
 			university.name = list[i].name
 			universities.push(university);
-			
 		}
 		
 		var points_table_body = document.querySelector('#points-table tbody');
@@ -118,6 +128,20 @@
 		
 		points_table_body.innerHTML = output_str;
 	}
+	
+	function push_score_data(table_row) {
+		var competitor = $(table_row).data('competitor');
+		var score = {
+			student_fk: competitor.id, 
+			university_fk:competitor.university_id,
+			category_fk: competitor.category_id,
+			rank: competitor.rank,
+			points: competitor.points
+		};
+		
+		//data.save('score', score);
+	}
+	
 	
 	function get_data(type){
 		
