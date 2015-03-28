@@ -13,7 +13,7 @@
 		data.init_university_total(uni_callback);
 	}, 2000);
 
-	var space_count = 0;
+	var space_count = 0, category_list_count = 0;
 	
 	
 	document.onkeypress=function(e){
@@ -33,18 +33,24 @@
 	function space_pressed () {
 		var category_section = document.getElementById('category');
 		var table_row = null, table_cells = null;
-		if (space_count > 0) {
-			table_row = category_section.querySelector('tbody').children[3-space_count];
-			if (table_row) {
+		var space_position = space_count % 4
+		if (space_position > 0) {
+			
+			if (space_position > 3) {
+				category_list_count++;
+				populate_category();
+				
+			} else {
+				table_row = category_section.querySelector('tbody').children[3-space_position];
+		
 				table_cells = table_row.children
-				$(table_cells).animate({opacity: 1}, 1000);
-				++space_count;
+				$(table_cells).animate({opacity: 1}, 500);
 			}
 		} else {
 			$(category_section).css('visibility', 'visible').hide().fadeIn();
-			++space_count;
+			
 		}
-		
+		space_count++;
 	}
 	
 	
@@ -54,12 +60,12 @@
 		
 		var list = data.get_list('winner');
 		
-		var category_name = data.get_entry('category', list[0].category_fk).name;
+		var category_name = data.get_entry('category', list[category_list_count].category_fk).name;
 		
 		var competitors = [];
 		for (i = 0; i < 3; i++) {
 			competitor = new Competitor();
-			competitor.id = list[0][number_names[i]+"_student_fk"];
+			competitor.id = list[category_list_count][number_names[i]+"_student_fk"];
 			competitor.find_and_set_name_and_team();
 			competitors.push(competitor);
 		}
@@ -75,6 +81,7 @@
 		
 		category_table_body.innerHTML = output_str;
 		document.querySelector('#category h2').innerHTML = category_name + ' Winners'
+		category_list_count++;
 	}
 	
 	function populate_leaderboard() {
